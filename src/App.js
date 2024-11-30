@@ -18,7 +18,7 @@ const App = () => {
       formData.append('file', image);
 
       // Send the form data to the backend to upload the image
-      const s3Response = await axios.post('http://localhost:5500/upload', formData, {
+      const s3Response = await axios.post('http://0.0.0.0:5500/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -36,7 +36,7 @@ const App = () => {
       };
 
       // Send the employee data to the backend to insert into the database
-      await axios.post('http://localhost:5500/api/emp', empData);
+      await axios.post('http://0.0.0.0:5500/api/emp', empData);
 
       alert('Employee data submitted successfully!');
     } catch (err) {
