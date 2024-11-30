@@ -99,6 +99,6 @@ app.post("/api/emp", (req, res) => {
 });
 
 // Start the server
-app.listen(port, '0.0.0.0' () => {
+app.listen(port, '0.0.0.0' , () => {
   console.log(`Server running on http://localhost:${port}`);
 });
