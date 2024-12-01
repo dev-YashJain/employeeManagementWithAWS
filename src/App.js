@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css';
 
 const App = () => {
   const [empId, setEmpId] = useState('');
@@ -17,8 +18,8 @@ const App = () => {
       const formData = new FormData();
       formData.append('file', image);
 
-      // Send the form data to the backend to upload the image
-      const s3Response = await axios.post('http://0.0.0.0:5500/upload', formData, {
+      // Use the EC2 public IP and port for the backend
+      const s3Response = await axios.post('http://3.106.230.156:5500/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -35,10 +36,16 @@ const App = () => {
         imageUrl,
       };
 
-      // Send the employee data to the backend to insert into the database
-      await axios.post('http://0.0.0.0:5500/api/emp', empData);
+      // Use the EC2 public IP and port for the backend
+      await axios.post('http://3.106.230.156:5500/api/emp', empData);
 
       alert('Employee data submitted successfully!');
+      // Reset form fields
+      setEmpId('');
+      setName('');
+      setPrimarySkill('');
+      setLoc('');
+      setImage(null);
     } catch (err) {
       console.error('Error submitting data:', err);
       alert('Failed to submit data.');
@@ -55,6 +62,7 @@ const App = () => {
             placeholder="Emp ID" 
             value={empId} 
             onChange={(e) => setEmpId(e.target.value)} 
+            required
           />
         </div>
         <div>
@@ -63,6 +71,7 @@ const App = () => {
             placeholder="Name" 
             value={name} 
             onChange={(e) => setName(e.target.value)} 
+            required
           />
         </div>
         <div>
@@ -71,6 +80,7 @@ const App = () => {
             placeholder="Primary Skill" 
             value={primarySkill} 
             onChange={(e) => setPrimarySkill(e.target.value)} 
+            required
           />
         </div>
         <div>
@@ -79,12 +89,14 @@ const App = () => {
             placeholder="Location" 
             value={loc} 
             onChange={(e) => setLoc(e.target.value)} 
+            required
           />
         </div>
         <div>
           <input 
             type="file" 
             onChange={(e) => setImage(e.target.files[0])} 
+            required
           />
         </div>
         <button type="submit">Submit</button>
